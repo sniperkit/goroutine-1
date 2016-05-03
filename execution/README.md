@@ -39,7 +39,7 @@ Overview (contrived)
 Create a new execution.Context which limits the execution of its subtasks time to 30ms.
 
 ``` go
-ctx := execution.NewContext().CancelAfter(task.Timeout(30 * time.Millisecond))
+ctx := execution.NewContext().CancelAfter(execution.Timeout(30 * time.Millisecond))
 ```
 
 Launch a child goroutine whose execution flow will be controlled.
