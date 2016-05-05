@@ -1,5 +1,7 @@
 #execution
 
+[![GoDoc](https://godoc.org/github.com/atdiar/goroutine/execution?status.svg)](https://godoc.org/github.com/atdiar/goroutine/execution)
+
 Control of the execution flow of subtasks launched in goroutines.
 --------------------------------------------------------------
 
@@ -18,11 +20,10 @@ Typically, from within a given task, the user wants to be able to :
 * propagate the cancellation to the subtasks launched on behalf of a task automatically
 * store and retrieve shared data between dependent tasks easily
 
-An execution.Controller allows to trigger, monitor and propagate those cancellation events.
-An execution.Context adds a facility for the storage of shared data between dependent tasks.
+An **execution.Controller** allows to trigger, monitor and propagate those cancellation events.
+An **execution.Context** adds a facility for the storage of shared data between dependent tasks.
 
-How to use it?
-====================
+##How to use it?
 
 You just need to pass an execution.Controller or execution.Context to any goroutine
 whose instruction flow you are interested in controlling.
@@ -33,8 +34,7 @@ You may want to have a look at the package documentation on [godoc.org] for a me
 
 To install the package (via CLI): go get github.com/atdiar/goroutine/execution
 
-Overview (contrived)
-====================
+##Overview (contrived)
 
 Create a new execution.Context which limits the execution of its subtasks time to 30ms.
 
