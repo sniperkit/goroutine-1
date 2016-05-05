@@ -21,6 +21,7 @@ Typically, from within a given task, the user wants to be able to :
 * store and retrieve shared data between dependent tasks easily
 
 An **execution.Controller** allows to trigger, monitor and propagate those cancellation events.
+
 An **execution.Context** adds a facility for the storage of shared data between dependent tasks.
 
 ##How to use it?
