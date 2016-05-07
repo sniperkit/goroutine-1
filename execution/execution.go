@@ -105,9 +105,9 @@ func (c Controller) timedout() *time.Timer {
 //
 // The reasons for the signal to trigger can be twofold:
 // the task ran out of time, or its parent task cancelled it.
-func (task Controller) WasCancelled(errCh chan error) <-chan struct{} {
+func (c Controller) WasCancelled(errCh chan error) <-chan struct{} {
 
-	timer := task.timedout()
+	timer := c.timedout()
 	var expired <-chan time.Time
 	if timer != nil {
 		expired = timer.C
@@ -142,32 +142,32 @@ func (task Controller) WasCancelled(errCh chan error) <-chan struct{} {
 			}
 		}
 
-	}(task, timer, expired, errCh)
+	}(c, timer, expired, errCh)
 
 	// Use of select needed here to make sure all channel communications
-	// are synchronized (for task.sigKill)
+	// are synchronized.
 	// Especially with the goroutine we launched above.
-	if task.parentSigKill != none {
+	if c.parentSigKill != none {
 		select {
-		case <-task.parentSigKill:
-			task.Cancel()
+		case <-c.parentSigKill:
+			c.Cancel()
 			if timer != nil {
 				timer.Stop()
 			}
-			return task.sigKill
+			return c.sigKill
 		case <-expired:
-			task.Cancel()
-			return task.sigKill
+			c.Cancel()
+			return c.sigKill
 		default:
-			return task.sigKill
+			return c.sigKill
 		}
 	} else {
 		select {
 		case <-expired:
-			task.Cancel()
-			return task.sigKill
+			c.Cancel()
+			return c.sigKill
 		default:
-			return task.sigKill
+			return c.sigKill
 		}
 	}
 }
