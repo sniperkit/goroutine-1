@@ -172,6 +172,13 @@ func (c Controller) WasCancelled(errCh chan error) <-chan struct{} {
 	}
 }
 
+// Panic will unwind the current goroutine, but not before sending a cancellation
+// signal.
+func (c Controller) Panic(v interface{}) {
+	c.Cancel()
+	panic(v)
+}
+
 // Timeout returns a deadline from a duration input.
 // This deadline is a time.Time value in UTC.
 // This function is not idempotent.
