@@ -198,7 +198,15 @@ type Context struct {
 
 // NewContext creates and returns an execution Context.
 // If you do not need storage, you should probably use a Controller instead.
-// The Storer should be safe for concurrent use.
+//
+// The Storer needs not be safe for concurrent use.
+// As a matter of fact, the Storer shall not be shared by multiple goroutines.
+// The data that it holds can be copied into another storing datastructure.
+// This property allows each goroutine to have a deterministic view of the
+// data that can be acted upon.
+// Mutability is convenient here but "shared" mutability could be an issue even
+// if done safely.
+//
 // Do not pass nil, it will panic.
 func NewContext(s Storer) Context {
 	if s == nil {
@@ -225,6 +233,9 @@ type Storer interface {
 
 	// Clear empties the datastore.
 	Clear()
+
+	// Clone returns a deep copy of a storer.
+	Clone() Storer
 }
 
 // As a wrapper around a Controller, a Context
@@ -234,6 +245,7 @@ type Storer interface {
 
 // Spawn creates a child context object.
 func (c Context) Spawn() Context {
+	c.Storer = c.Storer.Clone()
 	c.Controller = c.Controller.Spawn()
 	return c
 }

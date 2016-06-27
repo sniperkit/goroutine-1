@@ -12,6 +12,7 @@ func (d Dummy) Get(k interface{}) (interface{}, error) { return "Dummy", nil }
 func (d Dummy) Put(k, v interface{})                   {}
 func (d Dummy) Delete(k interface{})                   {}
 func (d Dummy) Clear()                                 {}
+func (d Dummy) Clone() Storer                          { return d }
 
 func TestContext(t *testing.T) {
 	// Let's create a NewContext execution context
