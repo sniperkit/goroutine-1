@@ -190,7 +190,7 @@ func Timeout(t time.Duration) time.Time {
 
 // Context is a wrapper around an execution Controller.
 // In addition to the cancellation features, it provides an interface for
-// the storage of shared data between a task and its subtasks.
+// goroutine-local storage of data.
 type Context struct {
 	Storer
 	Controller
